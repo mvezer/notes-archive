@@ -1,0 +1,9 @@
+# 65(C)02 assembly
+
+## links
+- c64 docs: http://stc.c64.org
+- gold mine: https://github.com/SlithyMatt
+- X16 docs: https://github.com/commanderx16/x16-docs
+- X16 Assembly tutorial: https://github.com/MJoergen/x16-assembly-tutorial
+- Z16 fandom page: https://commander-cx16.fandom.com/wiki/Getting_Started
+- 
