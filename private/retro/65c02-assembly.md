@@ -8,3 +8,7 @@
 - X16 Assembly tutorial: https://github.com/MJoergen/x16-assembly-tutorial
 - Z16 fandom page: https://commander-cx16.fandom.com/wiki/Getting_Started
 - 
+## VERA
+
+[VERA Programmer's Reference](https://github.com/commanderx16/x16-docs/blob/master/VERA%20Programmer's%20Reference.md)
+
