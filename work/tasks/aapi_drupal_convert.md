@@ -1,4 +1,6 @@
-## Drupal
+# Converting AAPI product object format to Amazon Widget product format
+
+### Amazon Widget format example
 ```
 {
    "bundle":{
@@ -42,3 +44,52 @@
 }
 ```
 
+### AAPI format example
+```
+{
+  "asin": "B08CRXNNDB",
+  "affiliateUrl": "https://www.amazon.de/dp/B08CRXNNDB?tag=tvm-trk-607-21&linkCode=ogi&th=1&psc=1",
+  "image": {
+    "url": "https://m.media-amazon.com/images/I/31Ke6e68v8L._SL500_.jpg",
+    "width": 500,
+    "height": 333
+  },
+  "title": "Samsung Galaxy Watch3, runde Bluetooth Smartwatch für Android, drehbare Lünette, 4G, Fitnessuhr, Fitness-Tracker, großes Display, 45 mm, Titanium, inkl. 36 Monate Herstellergarantie [Exkl. bei Amazon]",
+  "description": "<p>Fitness-Daten im Blick behalten: Die Samsung Galaxy Watch3 kann Sie dabei unterstützen, die ideale Balance zwischen Alltag und Workout finden – mit vielen Fitnesstracker-Funktionen, über 120 Workout-Programmen auf der Smartwatch und der Schlafanalyse.</p><p>Präzise Steuerung mit drehbarer Lünette: Die neue Samsung Smartwatch mit drehbarer Lünette ist leicht zu bedienen und kann problemlos mit einer Vielzahl von Galaxy-Geräten und Geräten anderer Hersteller verbunden werden.</p><p>Die passende 4G Smartwatch für Ihren Lifestyle: Die Galaxy Watch3 mit smartem Fitness-Tracker ist in den Größen 45 mm und 41 mm sowie in den Premium-Farbvarianten Schwarz, Silber und Bronze erhältlich. Abmessungen (HxBxT): 46,2 x 45,0 x 11,1 mm</p><p>Die Bluetooth Smartwatch im klassischen Premium-Design: Die drehbare Lünette der neuen Fitnessuhr rahmt das große Display dezent ein und bietet dank ihres leichten, schlanken Designs hohen Tragekomfort.</p><p>Die robuste Galaxy Smartwatch verfügt über eine IP68-Zertifizierung und ist damit vor Wasser und Staub geschützt. Außerdem ist die Smartwatch für Android bis zu 5 ATM wassergeschützt.</p><p>Welche komponenten sind im lieferumfang des produkts enthaltenen: Galaxy Watch3, BT (Titanium 45 mm), Wireless Charger, Quick Start Guide</p>",
+  "offerCount": 1,
+  "lowestNewPrice": 33999,
+  "listPrice": 43999,
+  "availability": "Auf Lager.",
+  "isEligibleForPrime": true,
+  "saving": 10000,
+  "awsTag": "tvm-trk-607-21"
+}
+```
+
+### Conversion code (pseudo-js)
+
+``` javascript
+// these properties should be set from widget data
+// Bundle.products[0].id
+// Bundle.products[0].bundle_id
+// Bundle.products[0].sortkey
+// Bundle.products[0].created_at
+// Bundle.products[0].updated_at
+
+// these properties can be converted from the AAPI object
+Bundle.products[0].asin = AAPI.asin,
+Bundle.products[0].title = AAPI.title,
+Bundle.products[0].affiliateId = AAPI.awsTag, // I'm not sure about this...
+Bundle.products[0].image = AAPI.image.url,
+Bundle.products[0].imageWidth = AAPI.image.width,
+Bundle.products[0].imageHeight = AAPI.image.height,
+Bundle.products[0].prime = AAPI.image.isPrimeEligible ? 1 : 0,
+Bundle.products[0].producttext = AAPI.image.description,
+const listPrice = AAPI.image.listPrice / 100
+const price = AAPI.image.lowestNewPrice / 100
+Bundle.products[0].price = price,
+Bundle.products[0].listPrice = listPrice,
+const saving = ((listPrice - price) / price ) / * 100
+Bundle.products[0].savingtotal = `${AAPI.saving / 100} (${saving}%)`,
+Bundle.products[0].savingPercentage = saving
+```
