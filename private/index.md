@@ -12,3 +12,6 @@
 - [Mutual fund vs. Index Fund vs. ETF](investment/investment_types.md)
 - [All about ETF](investment/etf.md)
 - [Crypto automated trading - Stoic.ai](https://stoic.ai)
+
+## coding
+- [clean code](coding/clean-code.md)
